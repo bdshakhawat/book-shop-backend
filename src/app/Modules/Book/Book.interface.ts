@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 export type TBook ={
     title: string;
     author: string;
@@ -8,3 +9,5 @@ export type TBook ={
     inStock: boolean;
     isDeleted?: boolean;
 }
+=======
+>>>>>>> 489b2e9b65df89655bb35db603c0584e8e5bfe91

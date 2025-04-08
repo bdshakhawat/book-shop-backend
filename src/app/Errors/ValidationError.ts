@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Response } from "express";
 
 export const handleValidationError =( err: any , res : Response)=>{

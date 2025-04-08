@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import express from 'express';
 import notFound from './app/middlewares/notFound';
+import { globalErrorHandler } from './app/middlewares/globalErrorHandler';
 
 const app = express();
 
@@ -78,7 +79,10 @@ app.get('/checkout-session/:sessionId', async (req, res) => {
     res.status(500).json({ error: 'Failed to retrieve session details' });
   }
 });
+
+app.use(globalErrorHandler)
 //not found middleware  
 app.use(notFound)
+
 
 export default app;

@@ -8,3 +8,4 @@ export const handleGenericError =(err : any, res : Response)=>{
         error : err
     })
 }
+

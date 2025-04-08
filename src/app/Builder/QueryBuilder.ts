@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+
+=======
 import { FilterQuery, Query } from 'mongoose'
 
 class QueryBuilder<T> {
@@ -82,3 +85,4 @@ class QueryBuilder<T> {
 
 
 export default QueryBuilder;
+>>>>>>> 95ef0f1f028cbfe67eadf131d50d63c9ac6704ac

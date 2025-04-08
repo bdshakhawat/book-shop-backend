@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import express from 'express';
+import notFound from './app/middlewares/notFound';
 
 const app = express();
 
@@ -77,5 +78,7 @@ app.get('/checkout-session/:sessionId', async (req, res) => {
     res.status(500).json({ error: 'Failed to retrieve session details' });
   }
 });
+//not found middleware  
+app.use(notFound)
 
 export default app;

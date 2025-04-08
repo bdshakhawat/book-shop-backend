@@ -6,4 +6,5 @@ export type TBook ={
     category: "Fiction"| "Science"| "SelfDevelopment"| "Poetry"| "Religious";
     quantity: number;
     inStock: boolean;
+    isDeleted?: boolean;
 }

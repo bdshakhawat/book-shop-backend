@@ -1,3 +1,4 @@
+import QueryBuilder from '../../Builder/QueryBuilder';
 import { TBook } from './Book.interface';
 import { Book } from './Book.model';
 
@@ -6,12 +7,17 @@ const createBook = async (payload: TBook) => {
   return result;
 };
 
-const getAllBooks = async () => {
-  const result = await Book.find()
-  return result;
+const getAllBooks = async (query: Record<string, unknown>) => {
+  const bookQuery = new QueryBuilder(Book.find(), query)
+      .search(['title', 'author', 'category'])
+      .filter()
+      .sort()
+      .paginate()
+      .select();
+
+  const result = await bookQuery.modelQuery;
+  return result
 }
-
-
 
 const getSingleBook = async (id: string) => {
   const result = await Book.findById(id);
@@ -36,4 +42,4 @@ export const BookServices = {
   getSingleBook,
   updateBook,
   deleteBook,
-};
+}

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Request, Response } from 'express';
 import { BookServices } from './Book.services';
 import sendResponse from '../../Utils/sendResponse';
@@ -11,17 +10,18 @@ const createBook = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     message: 'Book created successfully',
-    suscess: true,
+    success: true,
     data: result,
   });
 });
 
 const getAllBooks = catchAsync(async (req: Request, res: Response) => {
-  const result = await BookServices.getAllBooks();
+  const query = req.query;
+  const result = await BookServices.getAllBooks(query);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     message: 'Books retrieved successfully',
-    suscess: true,
+    success: true,
     data: result,
   });
 });
@@ -32,7 +32,7 @@ const getSingleBook = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     message: 'Book retrieved successfully',
-    suscess: true,
+    success: true,
     data: result,
   });
 });
@@ -44,7 +44,7 @@ const updateBook = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     message: 'Books updated successfully',
-    suscess: true,
+    success: true,
     data: result,
   });
 });
@@ -55,7 +55,7 @@ const deleteBook = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     message: 'Books deleted successfully',
-    suscess: true,
+    success: true,
     data: result,
   });
 });
@@ -67,6 +67,4 @@ export const BookControllers = {
   updateBook,
   deleteBook,
 };
-=======
 
->>>>>>> 489b2e9b65df89655bb35db603c0584e8e5bfe91

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import mongoose from 'mongoose';
 import { TBook } from './Book.interface';
 
@@ -49,5 +48,3 @@ bookSchema.pre('find', function (next) {
 });
 
 export const Book = mongoose.model<TBook>('Book', bookSchema);
-=======
->>>>>>> 489b2e9b65df89655bb35db603c0584e8e5bfe91

@@ -1,10 +1,18 @@
+<<<<<<< HEAD
+import express from 'express';
+=======
 /* eslint-disable @typescript-eslint/no-var-requires */
 import express from 'express';
 import notFound from './app/middlewares/notFound';
+>>>>>>> e3b8d93fc5a4ca55af2cce67db02f0ddfed75752
 
 const app = express();
 
 app.use(express.json());
+<<<<<<< HEAD
+
+export default app;
+=======
 // eslint-disable-next-line @typescript-eslint/no-require-imports, no-undef
 const stripe = require('stripe')('sk-test');
 
@@ -82,3 +90,4 @@ app.get('/checkout-session/:sessionId', async (req, res) => {
 app.use(notFound)
 
 export default app;
+>>>>>>> e3b8d93fc5a4ca55af2cce67db02f0ddfed75752

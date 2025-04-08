@@ -5,5 +5,5 @@ export type IUser ={
   name: string;
   email: string;
   password: string;
-  role: 'User' | 'admin';
+  role: 'user' | 'admin';
 }

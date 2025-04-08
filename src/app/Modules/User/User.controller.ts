@@ -1,52 +1,43 @@
-import httpStatus from 'http-status';
-import catchAsync from '../../Utils/catchAsync';
-import sendResponse from '../../Utils/sendResponse';
-import { UserServices } from './User.services';
+import httpStatus from "http-status";
+import catchAsync from "../../Utils/catchAsync";
+import sendResponse from "../../Utils/sendResponse";
+import { UserServices } from "./User.services";
+import bcrypt from "bcryptjs";
 
-const createNewUser = catchAsync(async (req, res) => {
+const createUser = catchAsync(async (req, res) => {
 
-  const result = await UserServices.createUser(req.body);
+  const hashedPassword = bcrypt.hashSync(
+    req.body.password,
+    Number(10)
+  );
+  const userDataWithHashedPassword = {
+    ...req.body,
+    password: hashedPassword,
+  };
+  const result = await UserServices.createUserIntoDB(
+    userDataWithHashedPassword
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
-    success: true,
-    message: 'User registered successfully',
+    suscess: true,
+    message: "User registered successfully",
     data: result,
   });
 });
 
-const getAllUsers = catchAsync(async (req, res) => {
-  const result = await UserServices.RetriveAllUserFromDB();
+const getAllUser = catchAsync(async (req, res) => {
+  const result = await UserServices.getAllUserIntoDb();
   sendResponse(res, {
     statusCode: httpStatus.OK,
-    success: true,
-    message: 'User retrieved successfully',
+    suscess: true,
+    message: "User retrieved successfully",
     data: result,
   });
 });
 
-// const deactivateUser = catchAsync(async (req, res) => {
-//   const result = await UserServices.deactivateUser(req.params.id);
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'User deactivated successfully',
-//     data: result,
-//   });
-// });
-// const activateUser = catchAsync(async (req, res) => {
-//   const result = await UserServices.activateUser(req.params.id);
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'User activated successfully',
-//     data: result,
-//   });
-// });
 
 export const UserControllers = {
-  createNewUser,
-  getAllUsers,
-//   deactivateUser,
-//   activateUser,
+  createUser,
+  getAllUser,
 };

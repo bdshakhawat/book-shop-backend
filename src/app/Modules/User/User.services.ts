@@ -1,6 +1,12 @@
 import { User } from './User.model';
 
-const createUser = async ({ name, email, password }) => {
+type TRegister = {
+  name:string,
+  email:string,
+  password:string
+}
+
+const createUserIntoDB = async ({ name, email, password }: TRegister) => {
 
   const result = await User.create({
     email,
@@ -10,24 +16,14 @@ const createUser = async ({ name, email, password }) => {
   return result;
 };
 
-const RetriveAllUserFromDB = async () => {
+const getAllUserIntoDb = async () => {
   const result = await User.find({});
   return result;
 };
 
-const activateUser = async (id: string) => {
-  const result = await User.findByIdAndUpdate(id, { activity: 'activated' });
-  return result;
-};
 
-const deactivateUser = async (id: string) => {
-  const result = await User.findByIdAndUpdate(id, { activity: 'deactivated' });
-  return result;
-};
 
 export const UserServices = {
-    createUser,
-  RetriveAllUserFromDB,
-  activateUser,
-  deactivateUser,
+  createUserIntoDB,
+  getAllUserIntoDb,
 };

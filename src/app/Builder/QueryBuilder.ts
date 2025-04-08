@@ -59,7 +59,7 @@ class QueryBuilder<T> {
       const sortBy = this?.query?.sortBy
       const sortOrder = this?.query?.sortOrder
       // "-price" othoba "price"
-      sortStr = `${sortOrder === 'desc' ? '-' : ''}${sortBy}`
+      sortStr = `${sortOrder === 'dsc' ? '-' : ''}${sortBy}`
     }
 
     this.modelQuery = this.modelQuery.sort(sortStr)

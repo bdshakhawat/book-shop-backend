@@ -1,118 +1,128 @@
 import httpStatus from 'http-status';
-import CustomError from '../../Errors/CustomError';
-import Order from './Order.model';
-import { orderUtils } from './Order.utils';
-import BookModel from '../Book/Book.model';
-import { IUser } from '../User/User.interface';
 import { Types } from 'mongoose';
+import { IUser } from '../User/User.interface';
 import { User } from '../User/User.model';
+import Order from './Order.model';
+import Book from '../Book/Book.model';
+import CustomError from '../../Errors/CustomError';
 
 const createOrder = async (
   user: IUser,
   payload: { products: { productId: Types.ObjectId; quantity: number }[] },
-  client_ip: string,
+  client_ip: string
 ) => {
-  console.log('product array', payload);
-  if (!payload?.products?.length)
-    throw new CustomError(httpStatus.NOT_ACCEPTABLE, 'Order is not specified');
-
-  const products = payload.products;
-
-  let totalPrice = 0;
-  const productDetails = await Promise.all(
-    products.map(async (item) => {
-      const product = await BookModel.findById(item.productId);
-      console.log('from line 24', product);
-      if (product) {
-        const subtotal = product ? (product.price || 0) * item.quantity : 0;
-        totalPrice += subtotal;
-        return item;
-      }
-    }),
-  );
-  let order = await Order.create({
-    user: user.id,
-    products: productDetails,
-    totalPrice,
-  });
-  // payment integration
-  const shurjopayPayload = {
-    amount: totalPrice,
-    order_id: order._id,
-    currency: 'BDT',
-    customer_name: user.name || 'Joens',
-    customer_address: user.address || '23 main road',
-    customer_email: user.email,
-    customer_phone: user.phone || '1234567890',
-    customer_city: user.city || 'Dhaka',
-    client_ip,
-  };
-
-  const payment = await orderUtils.makePaymentAsync(shurjopayPayload);
-  console.log('payment info', payment);
-  if (payment?.transactionStatus) {
-    order = await order.updateOne({
-      transaction: {
-        id: payment.sp_order_id,
-        transactionStatus: payment.transactionStatus,
-      },
-    });
-  }
-
-  return payment.checkout_url;
-};
-
-const getOrders = async () => {
-  const data = await Order.find().populate('user');
-  return data;
-};
-
-const verifyPayment = async (order_id: string) => {
-  const verifiedPayment = await orderUtils.verifyPaymentAsync(order_id);
-
-  if (verifiedPayment.length) {
-    await Order.findOneAndUpdate(
-      {
-        'transaction.id': order_id,
-      },
-      {
-        'transaction.bank_status': verifiedPayment[0].bank_status,
-        'transaction.sp_code': verifiedPayment[0].sp_code,
-        'transaction.sp_message': verifiedPayment[0].sp_message,
-        'transaction.transactionStatus': verifiedPayment[0].transaction_status,
-        'transaction.method': verifiedPayment[0].method,
-        'transaction.date_time': verifiedPayment[0].date_time,
-        status:
-          verifiedPayment[0].bank_status == 'Success'
-            ? 'Paid'
-            : verifiedPayment[0].bank_status == 'Failed'
-              ? 'Pending'
-              : verifiedPayment[0].bank_status == 'Cancel'
-                ? 'Cancelled'
-                : '',
-      },
+  // Validate products array
+  if (!payload?.products?.length) {
+    throw new CustomError(
+      httpStatus.BAD_REQUEST,
+      'Products array cannot be empty'
     );
   }
 
-  return verifiedPayment;
+  const products = payload.products;
+  let totalPrice = 0;
+
+  // Process each product
+  const productDetails = await Promise.all(
+    products.map(async (item) => {
+      const product = await Book.findById(item.productId);
+      if (!product) {
+        throw new CustomError(
+          httpStatus.NOT_FOUND,
+          `Product with ID ${item.productId} not found`
+        );
+      }
+      if (!product.inStock || product.quantity < item.quantity) {
+       throw new CustomError(
+             httpStatus.BAD_REQUEST,
+           `Insufficient stock for product ${product.title}`
+      );
+    }
+
+      // if (product.stock < item.quantity) {
+      //   throw new CustomError(
+      //     httpStatus.BAD_REQUEST,
+      //     `Insufficient stock for product ${product.title}`
+      //   );
+      // }
+
+      const subtotal = product.price * item.quantity;
+      totalPrice += subtotal;
+      
+      return {
+        productId: item.productId,
+        quantity: item.quantity,
+        price: product.price
+      };
+    })
+  );
+
+  // Create order
+  const order = await Order.create({
+    user: user.id,
+    products: productDetails,
+    totalPrice,
+    client_ip,
+    status: 'pending'
+  });
+
+  // Update stock levels
+  await Promise.all(
+    products.map(async (item) => {
+      await Book.findByIdAndUpdate(item.productId, {
+        $inc: { stock: -item.quantity }
+      });
+    })
+  );
+
+  return order;
+};
+
+const getOrders = async () => {
+  return await Order.find()
+    .populate('user')
+    .populate('products.productId');
 };
 
 const changeOrderStatus = async (id: string, status: string) => {
-  const result = await Order.findByIdAndUpdate(id, { status });
+  if (!Types.ObjectId.isValid(id)) {
+    throw new CustomError(httpStatus.BAD_REQUEST, 'Invalid order ID');
+  }
+
+  const result = await Order.findByIdAndUpdate(
+    id, 
+    { status }, 
+    { new: true }
+  );
+
+  if (!result) {
+    throw new CustomError(httpStatus.NOT_FOUND, 'Order not found');
+  }
+
   return result;
 };
+
 const getCustomerOrdersFromDb = async (email: string) => {
-  const id = await User.findOne({ email }).select('_id');
-  console.log(id);
-  const result = await Order.find({ user: id }).populate('user');
-  console.log(result);
-  return result;
+  const user = await User.findOne({ email }).select('_id');
+  if (!user) {
+    throw new CustomError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  return await Order.find({ user: user._id })
+    .populate('products.productId');
 };
 
 export const orderService = {
   createOrder,
   getOrders,
-  verifyPayment,
   changeOrderStatus,
-  getCustomerOrdersFromDb,
+  getCustomerOrdersFromDb
 };
+
+
+
+
+
+  
+
+

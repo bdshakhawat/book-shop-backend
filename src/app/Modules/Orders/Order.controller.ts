@@ -57,7 +57,7 @@ const changeOrderStatus = catchAsync(async (req, res) => {
 });
 
 const getCustomerOrder = catchAsync(async (req, res) => {
-  const { email } = req.user;
+  const { email  } = req.user as IUser;
   const order = await orderService.getCustomerOrdersFromDb(email);
   sendResponse(res, {
     success: true,

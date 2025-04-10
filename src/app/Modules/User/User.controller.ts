@@ -20,7 +20,7 @@ const createUser = catchAsync(async (req, res) => {
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
-    suscess: true,
+    success: true,
     message: "User registered successfully",
     data: result,
   });
@@ -30,7 +30,7 @@ const getAllUser = catchAsync(async (req, res) => {
   const result = await UserServices.getAllUserIntoDb();
   sendResponse(res, {
     statusCode: httpStatus.OK,
-    suscess: true,
+    success: true,
     message: "User retrieved successfully",
     data: result,
   });

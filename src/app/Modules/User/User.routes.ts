@@ -10,7 +10,7 @@ router.post(
   validateRequest(UserValidation.createUserValidationSchema),
   UserControllers.createUser
 );
-// router.get("/get-all-users", UserControllers.getAllUser);
+router.get("/get-all-users", UserControllers.getAllUser);
 
 
 

@@ -1,18 +1,24 @@
-import { Router } from "express";
-import { UserControllers } from "./User.controller";
-import validateRequest from "../../middlewares/validateRequest";
-import { UserValidation } from "./User.validation";
+import { Router } from 'express';
+import { UserValidation } from './User.validation';
+import validateRequest from '../../middlewares/validateRequest';
+import { UserControllers } from './User.controller';
+import authGurd from '../../middlewares/authGurd';
 
 const router = Router();
 
 router.post(
-  "/create-user",
+  '/create-new-user',
   validateRequest(UserValidation.createUserValidationSchema),
-  UserControllers.createUser
+  UserControllers.createNewUser,
 );
-router.get("/get-all-users", UserControllers.getAllUser);
-
-
-
+router.get('/get-all-users', UserControllers.RetriveUsers);
+router.patch(
+  '/deactivate-user/:id',
+  UserControllers.deactivateUser,
+);
+router.patch(
+  '/activate-user/:id',
+  UserControllers.activateUser,
+);
 
 export const UserRoutes = router;

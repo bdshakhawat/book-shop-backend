@@ -1,5 +1,5 @@
 import { Document, Types } from 'mongoose';
-// import { IUser } from '../User/User.interface';
+import { IUser } from '../User/User.interface';
 
 export interface IOrder extends Document {
   user?: Types.ObjectId;

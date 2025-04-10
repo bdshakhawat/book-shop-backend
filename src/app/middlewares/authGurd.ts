@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express"
 import catchAsync from "../Utils/catchAsync"
 import jwt, { JwtPayload } from "jsonwebtoken"
-import User from "../Modules/User/User.model"
+import{User} from "../Modules/User/User.model"
 
 const authGurd = (...requiredRoles: string[]) => {
     return catchAsync(async (req:Request, res:Response, next:NextFunction)=>{

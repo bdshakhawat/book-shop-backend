@@ -5,7 +5,8 @@ import{User} from "../Modules/User/User.model"
 
 const authGurd = (...requiredRoles: string[]) => {
     return catchAsync(async (req:Request, res:Response, next:NextFunction)=>{
-        const token = req.headers.authorization
+        const token = req.headers.authorization 
+       console.log(token)
         if(!token){
             throw new Error('you are not authorized')
         }

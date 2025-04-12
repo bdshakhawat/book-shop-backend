@@ -25,36 +25,3 @@ export class CustomError extends Error {
 
 
 
-// class CustomError extends Error {
-//   public statusCode: number;
-//   constructor(statusCode: number, message: string, stack = '') {
-//     super(message);
-//     this.statusCode = statusCode;
-//     if (stack) {
-//       this.stack = stack;
-//     } else {
-//       Error.captureStackTrace(this, this.constructor);
-//     }
-//   }
-// }
-
-// export default CustomError;
-
-
-
-
-
-// // import { Response } from "express";
-// // import { StatusCodes } from 'http-status-codes';
-
-
-
-// // // eslint-disable-next-line @typescript-eslint/no-explicit-any
-// //  const handleCastError =( err: any, res: Response)=>{
-// //     res.status(StatusCodes.BAD_REQUEST).json({
-// //         status : false,
-// //         message : err.message,
-// //         error : err
-// //     })
-// // }
-// // export default handleCastError;

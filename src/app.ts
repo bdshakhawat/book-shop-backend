@@ -6,8 +6,16 @@ import { globalErrorHandler } from './app/middlewares/globalErrorHandler';
 const app: Application = express();
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+// app.use(cors());
 
+// CORS Configuration
+const corsOptions = {
+  origin: ['http://localhost:5173'], // Frontend origin
+  credentials: true, // Allow cookies
+};
+
+// Apply CORS Middleware
+app.use(cors(corsOptions));
 app.use('/api/v1', router);
 
 app.get('/', (req, res) => {
@@ -17,7 +25,7 @@ app.get('/', (req, res) => {
 app.use(globalErrorHandler);
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports, no-undef
-const stripe = require('stripe')('sk-test');
+const stripe = require('stripe')('sk_test');
 
 app.post('/create-checkout-session', async (req, res) => {
   console.log('test');

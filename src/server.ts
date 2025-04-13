@@ -7,11 +7,9 @@ let server: Server;
 
 async function main() {
   try {
-    // await mongoose.connect(Config.db_url as string);
-    await mongoose.connect('mongodb://localhost:27017/bookGroupPoject');
+    await mongoose.connect(Config.db_url as string);
     server = App.listen(5000, () => {
-      // console.log(`server running on port ${Config.port}`);
-      console.log(`server running on port 5000`);
+      console.log(`server running on port ${Config.port}`);
     });
   } catch (error) {
     console.log(error);

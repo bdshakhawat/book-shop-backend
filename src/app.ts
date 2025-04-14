@@ -25,7 +25,9 @@ app.get('/', (req, res) => {
 app.use(globalErrorHandler);
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports, no-undef
-const stripe = require('stripe')('sk_test');
+const stripe = require('stripe')(
+  'sk-test',
+);
 
 app.post('/create-checkout-session', async (req, res) => {
   console.log('test');

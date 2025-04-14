@@ -17,7 +17,7 @@ const createNewUser = catchAsync(async (req, res) => {
     ...req.body,
     password: hashedPassword,
   };
-  console.log(userDataWithHashedPassword)
+  
   const result = await UserServices.RegisterUserIntoDb(
     userDataWithHashedPassword,
   );

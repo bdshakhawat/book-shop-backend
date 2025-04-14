@@ -14,10 +14,12 @@ router.post(
 router.get('/get-all-users', UserControllers.RetriveUsers);
 router.patch(
   '/deactivate-user/:id',
+  authGurd('admin'),
   UserControllers.deactivateUser,
 );
 router.patch(
   '/activate-user/:id',
+  authGurd('admin'),
   UserControllers.activateUser,
 );
 

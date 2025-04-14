@@ -11,7 +11,7 @@ const authGurd = (...requiredRoles: string[]) => {
             throw new Error('you are not authorized')
         }
 
-        const decoded = jwt.verify(token, Config.jwt_access_secret as string) as JwtPayload
+        const decoded = jwt.verify(token, Config.jwt_secret as string) as JwtPayload
 
         const {email,role} = decoded
 

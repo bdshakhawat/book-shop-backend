@@ -10,7 +10,7 @@ const LoginUser = catchAsync(async (req, res) => {
   const result = await AuthServices.Login(req.body);
 
   const payload = { id: result?._id, role: result?.role, email: result?.email };
-  const accessToken = jwt.sign(payload, Config.jwt_access_secret as string, {
+  const accessToken = jwt.sign(payload, Config.jwt_secret as string, {
     expiresIn: '1h',
   });
   res.cookie('accessToken', accessToken, {

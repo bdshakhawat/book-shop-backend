@@ -3,6 +3,7 @@ import cors from 'cors';
 import express, { Application } from 'express';
 import router from './app/Routes';
 import { globalErrorHandler } from './app/middlewares/globalErrorHandler';
+import Config from './app/Config';
 const app: Application = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -25,9 +26,7 @@ app.get('/', (req, res) => {
 app.use(globalErrorHandler);
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports, no-undef
-const stripe = require('stripe')(
-  'sk-test',
-);
+const stripe = require('stripe')(Config.stripe_sk);
 
 app.post('/create-checkout-session', async (req, res) => {
   console.log('test');

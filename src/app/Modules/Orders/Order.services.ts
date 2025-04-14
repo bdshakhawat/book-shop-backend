@@ -142,7 +142,7 @@ const getCustomerOrdersFromDb = async (email: string) => {
   }
 
   return await Order.find({ user: user._id })
-    .populate('products.productId');
+    .populate('products.productId').populate('user');
 };
 
 export const orderService = {

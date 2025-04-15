@@ -6,4 +6,5 @@ export default {
   db_url: process.env.DATABASE_URL,
   jwt_access_secret: process.env.JWT_SECRET,
   bcrypt_salt_round: process.env.BCRYPT_SALTROUND,
+  stipe_sk: process.env.STRIPE_SK,
 };

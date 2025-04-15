@@ -4,6 +4,7 @@ import express, { Application } from 'express';
 import router from './app/Routes';
 import { globalErrorHandler } from './app/middlewares/globalErrorHandler';
 import BookModel from './app/Modules/Book/Book.model';
+import Config from './app/Config';
 const app: Application = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -26,9 +27,7 @@ app.get('/', (req, res) => {
 app.use(globalErrorHandler);
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports, no-undef
-const stripe = require('stripe')(
-  'sk_test_51M5sVrSH7xFCRHqMcMvq5A2TZ7iN66XoCTDkr5lUgHHkHOr4xfgsu01Rj9OwT19tMhfGAUzfikWHQ7aNlZ5sbEcJ00UGuYFIi9',
-);
+const stripe = require('stripe')(`${Config.stipe_sk}`);
 
 app.post('/create-checkout-session', async (req, res) => {
   console.log('test');

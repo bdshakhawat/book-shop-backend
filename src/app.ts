@@ -3,6 +3,7 @@ import cors from 'cors';
 import express, { Application } from 'express';
 import router from './app/Routes';
 import { globalErrorHandler } from './app/middlewares/globalErrorHandler';
+import BookModel from './app/Modules/Book/Book.model';
 const app: Application = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -25,7 +26,9 @@ app.get('/', (req, res) => {
 app.use(globalErrorHandler);
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports, no-undef
-const stripe = require('stripe')('sk_test');
+const stripe = require('stripe')(
+  'sk_test_51M5sVrSH7xFCRHqMcMvq5A2TZ7iN66XoCTDkr5lUgHHkHOr4xfgsu01Rj9OwT19tMhfGAUzfikWHQ7aNlZ5sbEcJ00UGuYFIi9',
+);
 
 app.post('/create-checkout-session', async (req, res) => {
   console.log('test');
@@ -58,6 +61,7 @@ app.post('/create-checkout-session', async (req, res) => {
         product: product._id,
         quantity: 1,
         totalPrice: Math.round(product.price * 100),
+        author: product.author,
       },
     });
 
@@ -85,16 +89,33 @@ app.get('/checkout-session/:sessionId', async (req, res) => {
 
     console.log('Payment session details:', session);
 
+    const {
+      email,
+      product: productId,
+      quantity,
+      totalPrice,
+    } = session.metadata;
+
+    // Now fetch product details from DB using productId
+    const product = await BookModel.findById(productId); // Assuming `Product` is your Mongoose model
+
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
     res.json({
       paymentStatus: session.payment_status,
-      userEmail: session.metadata.email,
-      productId: session.metadata.product,
-      productQuantity: session.metadata.quantity,
-      productPrice: session.metadata.totalPrice,
+      userEmail: email,
+      productId: productId,
+      productQuantity: quantity,
+      productPrice: totalPrice,
+      productTitle: product.title,
+      productAuthor: product.author,
     });
   } catch (error) {
     console.error('Error retrieving checkout session:', error);
     res.status(500).json({ error: 'Failed to retrieve session details' });
   }
 });
+
 export const App = app;

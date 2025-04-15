@@ -6,7 +6,7 @@ import { IUser } from '../User/User.interface';
 
 const createOrder = catchAsync(async (req, res) => {
   const user = req.user;
-
+  // console.log('inside create', req.body, req.user);
   const order = await orderService.createOrder(
     user as IUser,
     req.body,
@@ -57,7 +57,7 @@ const changeOrderStatus = catchAsync(async (req, res) => {
 });
 
 const getCustomerOrder = catchAsync(async (req, res) => {
-  const { email  } = req.user as IUser;
+  const { email } = req.user as IUser;
   const order = await orderService.getCustomerOrdersFromDb(email);
   sendResponse(res, {
     success: true,

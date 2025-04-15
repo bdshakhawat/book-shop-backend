@@ -65,7 +65,7 @@ const createOrder = async (
     products: productDetails,
     totalPrice,
     client_ip,
-    status: 'pending'
+    status: 'Pending'
   });
 
   // Update stock levels

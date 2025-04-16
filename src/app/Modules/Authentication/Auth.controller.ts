@@ -5,10 +5,9 @@ import { AuthServices } from './Auth.services';
 import jwt from 'jsonwebtoken';
 import Config from '../../Config';
 
-
 const LoginUser = catchAsync(async (req, res) => {
   const result = await AuthServices.Login(req.body);
-
+  console.log('req', req.body);
   const payload = { id: result?._id, role: result?.role, email: result?.email };
   const accessToken = jwt.sign(payload, Config.jwt_secret as string, {
     expiresIn: '1h',
@@ -27,7 +26,6 @@ const LoginUser = catchAsync(async (req, res) => {
   });
 });
 
-
 const updatePassword = catchAsync(async (req, res) => {
   const result = await AuthServices.updatePasswordInDB(req.body);
   sendResponse(res, {
@@ -38,5 +36,4 @@ const updatePassword = catchAsync(async (req, res) => {
   });
 });
 
-
-export const AuthControllers = { LoginUser ,updatePassword};
+export const AuthControllers = { LoginUser, updatePassword };

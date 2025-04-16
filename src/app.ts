@@ -59,6 +59,7 @@ app.post('/create-checkout-session', async (req, res) => {
         product: product._id,
         quantity: 1,
         totalPrice: Math.round(product.price * 100),
+        author: product.author,
       },
     });
 
@@ -86,16 +87,33 @@ app.get('/checkout-session/:sessionId', async (req, res) => {
 
     console.log('Payment session details:', session);
 
+    const {
+      email,
+      product: productId,
+      quantity,
+      totalPrice,
+    } = session.metadata;
+
+    // Now fetch product details from DB using productId
+    const product = await BookModel.findById(productId); // Assuming `Product` is your Mongoose model
+
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
     res.json({
       paymentStatus: session.payment_status,
-      userEmail: session.metadata.email,
-      productId: session.metadata.product,
-      productQuantity: session.metadata.quantity,
-      productPrice: session.metadata.totalPrice,
+      userEmail: email,
+      productId: productId,
+      productQuantity: quantity,
+      productPrice: totalPrice,
+      productTitle: product.title,
+      productAuthor: product.author,
     });
   } catch (error) {
     console.error('Error retrieving checkout session:', error);
     res.status(500).json({ error: 'Failed to retrieve session details' });
   }
 });
+
 export const App = app;

@@ -29,6 +29,7 @@ const activateUser = async (id: string) => {
 };
 
 const deactivateUser = async (id: string) => {
+  console.log('insite deactiveUSER',id)
   const result = await User.findByIdAndUpdate(id, { activity: 'deactivated' });
   return result;
 };

@@ -4,12 +4,12 @@ import { IUser } from '../User/User.interface';
 import { User } from '../User/User.model';
 import Order from './Order.model';
 import Book from '../Book/Book.model';
-import {CustomError} from '../../Errors/CustomError';
+import { CustomError } from '../../Errors/CustomError';
 
 const createOrder = async (
   user: IUser,
   payload: { products: { productId: Types.ObjectId; quantity: number }[] },
-  client_ip: string
+  client_ip: string,
   // Add paymentMethodId: string
   // paymentMethodId: string
 ) => {
@@ -17,7 +17,7 @@ const createOrder = async (
   if (!payload?.products?.length) {
     throw new CustomError(
       httpStatus.BAD_REQUEST,
-      'Products array cannot be empty'
+      'Products array cannot be empty',
     );
   }
 
@@ -31,32 +31,32 @@ const createOrder = async (
       if (!product) {
         throw new CustomError(
           httpStatus.NOT_FOUND,
-          `Product with ID ${item.productId} not found`
+          `Product with ID ${item.productId} not found`,
         );
       }
       if (!product.inStock || product.quantity < item.quantity) {
-       throw new CustomError(
-             httpStatus.BAD_REQUEST,
-           `Insufficient stock for product ${product.title}`
-      );
-    }
+        throw new CustomError(
+          httpStatus.BAD_REQUEST,
+          `Insufficient stock for product ${product.title}`,
+        );
+      }
 
       if (product.inStock && product.quantity < item.quantity) {
         throw new CustomError(
           httpStatus.BAD_REQUEST,
-          `Insufficient stock for product ${product.title}`
+          `Insufficient stock for product ${product.title}`,
         );
       }
 
       const subtotal = product.price * item.quantity;
       totalPrice += subtotal;
-      
+
       return {
         productId: item.productId,
         quantity: item.quantity,
-        price: product.price
+        price: product.price,
       };
-    })
+    }),
   );
 
   // Create order
@@ -65,25 +65,23 @@ const createOrder = async (
     products: productDetails,
     totalPrice,
     client_ip,
-    status: 'Pending'
+    status: 'Paid',
   });
 
   // Update stock levels
   await Promise.all(
     products.map(async (item) => {
       await Book.findByIdAndUpdate(item.productId, {
-        $inc: { stock: -item.quantity }
+        $inc: { quantity: -item.quantity },
       });
-    })
+    }),
   );
 
   return order;
 };
 
 const getOrders = async () => {
-  return await Order.find()
-    .populate('user')
-    .populate('products.productId');
+  return await Order.find().populate('user').populate('products.productId');
 };
 
 // const verifyPayment = async (order_id: string) => {
@@ -116,17 +114,12 @@ const getOrders = async () => {
 //   return verifiedPayment;
 // };
 
-
 const changeOrderStatus = async (id: string, status: string) => {
   if (!Types.ObjectId.isValid(id)) {
     throw new CustomError(httpStatus.BAD_REQUEST, 'Invalid order ID');
   }
 
-  const result = await Order.findByIdAndUpdate(
-    id, 
-    { status }, 
-    { new: true }
-  );
+  const result = await Order.findByIdAndUpdate(id, { status }, { new: true });
 
   if (!result) {
     throw new CustomError(httpStatus.NOT_FOUND, 'Order not found');
@@ -142,21 +135,25 @@ const getCustomerOrdersFromDb = async (email: string) => {
   }
 
   return await Order.find({ user: user._id })
-    .populate('products.productId').populate('user');
+    .populate({ path: 'products.productId', model: 'Book' })
+    .populate({ path: 'user', model: 'User' });
 };
 
+const deleteCustomerOrderFromDb = async (orderId: string) => {
+  const order = await Order.findOne({ _id: orderId });
+
+  if (!order) {
+    throw new Error('Order not found or access denied');
+  }
+
+  await Order.findByIdAndDelete(orderId);
+
+  return;
+};
 export const orderService = {
   createOrder,
   getOrders,
-  
+  deleteCustomerOrderFromDb,
   changeOrderStatus,
-  getCustomerOrdersFromDb
+  getCustomerOrdersFromDb,
 };
-
-
-
-
-
-  
-
-

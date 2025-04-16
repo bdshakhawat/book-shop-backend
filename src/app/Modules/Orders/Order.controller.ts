@@ -6,7 +6,7 @@ import { IUser } from '../User/User.interface';
 
 const createOrder = catchAsync(async (req, res) => {
   const user = req.user;
-
+  // console.log('inside create', req.body, req.user);
   const order = await orderService.createOrder(
     user as IUser,
     req.body,
@@ -57,7 +57,7 @@ const changeOrderStatus = catchAsync(async (req, res) => {
 });
 
 const getCustomerOrder = catchAsync(async (req, res) => {
-  const { email  } = req.user as IUser;
+  const { email } = req.user as IUser;
   const order = await orderService.getCustomerOrdersFromDb(email);
   sendResponse(res, {
     success: true,
@@ -66,10 +66,26 @@ const getCustomerOrder = catchAsync(async (req, res) => {
     data: order,
   });
 });
+
+const deleteCustomerOrder = catchAsync(async (req, res) => {
+  const { orderId } = req.body;
+  console.log('from delete', req.query);
+
+  await orderService.deleteCustomerOrderFromDb(orderId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Order deleted successfully',
+    data: null,
+  });
+});
+
 export const orderController = {
   createOrder,
   // verifyPayment,
   getOrders,
   changeOrderStatus,
   getCustomerOrder,
+  deleteCustomerOrder,
 };

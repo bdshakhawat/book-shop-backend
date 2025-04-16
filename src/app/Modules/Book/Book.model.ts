@@ -16,14 +16,9 @@ const BookSchema = new Schema<IBook>({
   isDeleted: { type: Boolean, default: false },
 });
 
-const BookModel = model<IBook>('Book', BookSchema);
+const Book = model<IBook>('Book', BookSchema);
 
-export default BookModel;
-
-
-
-
-
+export default Book;
 
 // <<<<<<< HEAD
 // import mongoose from 'mongoose';

@@ -3,7 +3,6 @@ import cors from 'cors';
 import express, { Application } from 'express';
 import router from './app/Routes';
 import { globalErrorHandler } from './app/middlewares/globalErrorHandler';
-import BookModel from './app/Modules/Book/Book.model';
 import Config from './app/Config';
 const app: Application = express();
 app.use(express.json());
@@ -27,7 +26,7 @@ app.get('/', (req, res) => {
 app.use(globalErrorHandler);
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports, no-undef
-const stripe = require('stripe')(`${Config.stipe_sk}`);
+const stripe = require('stripe')(Config.stripe_sk);
 
 app.post('/create-checkout-session', async (req, res) => {
   console.log('test');

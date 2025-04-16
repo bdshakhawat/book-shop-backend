@@ -4,7 +4,7 @@ dotenv.config();
 export default {
   port: process.env.PORT,
   db_url: process.env.DATABASE_URL,
-  jwt_access_secret: process.env.JWT_SECRET,
+  jwt_secret: process.env.JWT_SECRET,
   bcrypt_salt_round: process.env.BCRYPT_SALTROUND,
-  stipe_sk: process.env.STRIPE_SK,
+  stripe_sk: process.env.STRIPE_SK,
 };

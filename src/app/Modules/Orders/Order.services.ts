@@ -134,7 +134,9 @@ const getCustomerOrdersFromDb = async (email: string) => {
     throw new CustomError(httpStatus.NOT_FOUND, 'User not found');
   }
 
-  return await Order.find({ user: user._id }).populate('products.productId');
+  return await Order.find({ user: user._id })
+    .populate('products.productId')
+    .populate('user');
 };
 
 const deleteCustomerOrderFromDb = async (orderId: string, email: string) => {

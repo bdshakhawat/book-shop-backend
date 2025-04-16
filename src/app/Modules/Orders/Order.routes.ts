@@ -21,7 +21,7 @@ route.get(
 );
 route.delete(
   '/delete-customer-order/:orderId',
-  authGurd('admin', 'user'),
+  authGurd('admin'),
   orderController.deleteCustomerOrder,
 );
 export const OrderRoutes = route;

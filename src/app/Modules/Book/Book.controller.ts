@@ -25,6 +25,7 @@ const RetriveBooks = catchAsync(async (req, res) => {
 });
 const RetriveSingleBook = catchAsync(async (req, res) => {
   const result = await BookServices.RetriveBookFromDB(req.params.id);
+  console.log('id', req.params.id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -81,14 +82,6 @@ export const BookController = {
   UpdateBook,
   GetAuthors,
 };
-
-
-
-
-
-
-
-
 
 // <<<<<<< HEAD
 // import { Request, Response } from 'express';

@@ -8,7 +8,7 @@ let server: Server;
 async function main() {
   try {
     await mongoose.connect(Config.db_url as string);
-    server = App.listen(Config.port, () => {
+    server = App.listen(5000, () => {
       console.log(`server running on port ${Config.port}`);
     });
   } catch (error) {
@@ -16,7 +16,6 @@ async function main() {
   }
 }
 main();
-
 
 // import mongoose from 'mongoose';
 // import app from './app';

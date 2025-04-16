@@ -72,7 +72,7 @@ const createOrder = async (
   await Promise.all(
     products.map(async (item) => {
       await Book.findByIdAndUpdate(item.productId, {
-        $inc: { stock: -item.quantity },
+        $inc: { quantity: -item.quantity },
       });
     }),
   );
@@ -137,10 +137,21 @@ const getCustomerOrdersFromDb = async (email: string) => {
   return await Order.find({ user: user._id }).populate('products.productId');
 };
 
+const deleteCustomerOrderFromDb = async (orderId: string, email: string) => {
+  const order = await Order.findOne({ _id: orderId, customerEmail: email });
+
+  if (!order) {
+    throw new Error('Order not found or access denied');
+  }
+
+  await Order.findByIdAndDelete(orderId);
+
+  return;
+};
 export const orderService = {
   createOrder,
   getOrders,
-
+  deleteCustomerOrderFromDb,
   changeOrderStatus,
   getCustomerOrdersFromDb,
 };

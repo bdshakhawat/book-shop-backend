@@ -66,10 +66,26 @@ const getCustomerOrder = catchAsync(async (req, res) => {
     data: order,
   });
 });
+
+const deleteCustomerOrder = catchAsync(async (req, res) => {
+  const { email } = req.user as IUser;
+  const { orderId } = req.params;
+
+  await orderService.deleteCustomerOrderFromDb(orderId, email);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Order deleted successfully',
+    data: null,
+  });
+});
+
 export const orderController = {
   createOrder,
   // verifyPayment,
   getOrders,
   changeOrderStatus,
   getCustomerOrder,
+  deleteCustomerOrder,
 };

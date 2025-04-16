@@ -19,14 +19,6 @@ const OrderSchema = new Schema<IOrder>(
           type: Number,
           required: true,
         },
-        title: {
-          type: String,
-          required: true,
-        }, // ⬅️ Add this
-        author: {
-          type: String,
-          required: true,
-        }, // ⬅️ Add this
       },
     ],
     totalPrice: {

@@ -135,12 +135,12 @@ const getCustomerOrdersFromDb = async (email: string) => {
   }
 
   return await Order.find({ user: user._id })
-    .populate('products.productId')
-    .populate('user');
+    .populate({ path: 'products.productId', model: 'Book' })
+    .populate({ path: 'user', model: 'User' });
 };
 
-const deleteCustomerOrderFromDb = async (orderId: string, email: string) => {
-  const order = await Order.findOne({ _id: orderId, customerEmail: email });
+const deleteCustomerOrderFromDb = async (orderId: string) => {
+  const order = await Order.findOne({ _id: orderId });
 
   if (!order) {
     throw new Error('Order not found or access denied');

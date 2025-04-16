@@ -1,13 +1,13 @@
 import QueryBuilder from '../../Builder/QueryBuilder';
 import { IBook } from './Book.interface';
-import BookModel from './Book.model';
+import Book from './Book.model';
 
 const CreateBookInDB = async (payload: IBook) => {
-  const result = await BookModel.create(payload);
+  const result = await Book.create(payload);
   return result;
 };
 const RetriveAllBookFromDB = async (query: Record<string, unknown>) => {
-  const AllBookQuery = new QueryBuilder(BookModel.find(), query)
+  const AllBookQuery = new QueryBuilder(Book.find(), query)
     .search(['author', 'category', 'title'])
     .filter()
     .limit();
@@ -18,19 +18,19 @@ const RetriveAllBookFromDB = async (query: Record<string, unknown>) => {
 };
 
 const RetriveBookFromDB = async (id: string) => {
-  const result = await BookModel.findById(id);
+  const result = await Book.findById(id);
   return result;
 };
 
 const NumberOfCategory = async () => {
-  const result = await BookModel.aggregate([
+  const result = await Book.aggregate([
     { $group: { _id: '$category', count: { $sum: 1 } } },
   ]);
   return result;
 };
 
 const DeleteBookFromDB = async (_id: string) => {
-  const result = await BookModel.findByIdAndUpdate(
+  const result = await Book.findByIdAndUpdate(
     _id,
     { isDeleted: true },
     { new: true, runValidators: true },
@@ -39,7 +39,7 @@ const DeleteBookFromDB = async (_id: string) => {
   return result;
 };
 const UpdateBookDataInDB = async (_id: string, payload: Partial<IBook>) => {
-  const result = await BookModel.findByIdAndUpdate(_id, payload, {
+  const result = await Book.findByIdAndUpdate(_id, payload, {
     new: true,
     runValidators: true,
   });
@@ -47,7 +47,7 @@ const UpdateBookDataInDB = async (_id: string, payload: Partial<IBook>) => {
 };
 
 const GetAuthorsFromDB = async () => {
-  const result = await BookModel.aggregate([
+  const result = await Book.aggregate([
     { $group: { _id: '$author', count: { $sum: 1 } } },
   ]);
   return result;
@@ -62,10 +62,6 @@ export const BookServices = {
   GetAuthorsFromDB,
 };
 
-
-
-
-
 // import { TBook } from './Book.interface';
 // import { Book } from './Book.model';
 
@@ -78,8 +74,6 @@ export const BookServices = {
 //   const result = await Book.find()
 //   return result;
 // }
-
-
 
 // const getSingleBook = async (id: string) => {
 //   const result = await Book.findById(id);

@@ -3,8 +3,11 @@ import cors from 'cors';
 import express, { Application } from 'express';
 import router from './app/Routes';
 import { globalErrorHandler } from './app/middlewares/globalErrorHandler';
+
 import Config from './app/Config';
+
 import Book from './app/Modules/Book/Book.model';
+
 const app: Application = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -27,9 +30,9 @@ app.get('/', (req, res) => {
 app.use(globalErrorHandler);
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports, no-undef
-const stripe = require('stripe')(
-  'sk_test_51M5sVrSH7xFCRHqMcMvq5A2TZ7iN66XoCTDkr5lUgHHkHOr4xfgsu01Rj9OwT19tMhfGAUzfikWHQ7aNlZ5sbEcJ00UGuYFIi9',
-);
+
+const stripe = require('stripe')(Config.stripe_sk);
+
 
 app.post('/create-checkout-session', async (req, res) => {
   console.log('test');
@@ -120,3 +123,29 @@ app.get('/checkout-session/:sessionId', async (req, res) => {
 });
 
 export const App = app;
+
+
+
+
+
+
+
+// import cookieParser from 'cookie-parser';
+// import cors from 'cors';
+// import express, { Application } from 'express';
+// import router from './app/Routes';
+// import {globalErrorHandler} from './app/middlewares/globalErrorHandler';
+// const app: Application = express();
+// app.use(express.json());
+// app.use(cookieParser());
+// app.use(cors());
+
+// app.use('/api/v1', router);
+
+// app.get('/', (req, res) => {
+//   res.send('Welcome to Book Shop');
+// });
+
+// app.use(globalErrorHandler);
+
+// export const App = app;

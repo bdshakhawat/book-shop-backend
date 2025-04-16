@@ -43,6 +43,7 @@ const NumberOfCategory = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
 const DeleteBook = catchAsync(async (req, res) => {
   console.log('from delete book',req.params.id)
   const result = await BookServices.DeleteBookFromDB(req.params.id);

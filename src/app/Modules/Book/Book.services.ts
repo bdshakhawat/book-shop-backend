@@ -30,10 +30,9 @@ const NumberOfCategory = async () => {
 };
 
 const DeleteBookFromDB = async (_id: string) => {
-  const result = await Book.findByIdAndUpdate(
+  // console.log(_id)
+  const result = await Book.findByIdAndDelete(
     _id,
-    { isDeleted: true },
-    { new: true, runValidators: true },
   );
   console.log('book Deleted', result);
   return result;

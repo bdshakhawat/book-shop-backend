@@ -12,7 +12,7 @@ app.use(cookieParser());
 
 // CORS Configuration
 const corsOptions = {
-  origin: ['http://localhost:5173'], // Frontend origin
+  origin: ['https://book-shop-frontend-vert.vercel.app'], // Frontend origin
   credentials: true, // Allow cookies
 };
 
@@ -27,9 +27,7 @@ app.get('/', (req, res) => {
 app.use(globalErrorHandler);
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports, no-undef
-const stripe = require('stripe')(
-  'sk_test_51M5sVrSH7xFCRHqMcMvq5A2TZ7iN66XoCTDkr5lUgHHkHOr4xfgsu01Rj9OwT19tMhfGAUzfikWHQ7aNlZ5sbEcJ00UGuYFIi9',
-);
+const stripe = require('stripe')(Config.stripe_sk);
 
 app.post('/create-checkout-session', async (req, res) => {
   console.log('test');
@@ -55,8 +53,8 @@ app.post('/create-checkout-session', async (req, res) => {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: 'http://localhost:5173/failed',
+      success_url: `https://book-shop-frontend-vert.vercel.app/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: 'https://book-shop-frontend-vert.vercel.app/failed',
       metadata: {
         email: user.email,
         product: product._id,

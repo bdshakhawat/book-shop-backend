@@ -1,43 +1,60 @@
-# BookShop API Application
+# 📚 BookShop API Application
 
-Welcome to the **BookShop API**! This is a simple API built with **Express**, **TypeScript**, **MongoDB**, **Mongoose**, and **ESLint**. It allows you to manage a book inventory, process orders, and track revenue.
+Welcome to the **BookShop API**! This is a full-featured REST API built with **Express**, **TypeScript**, **MongoDB**, and **Mongoose**, enhanced with modern development tools like **ESLint**, **Prettier**, and **Stripe**. It allows you to manage a book inventory, handle user authentication, place orders, and track revenue with secure payments.
 
-### Api Live Link : https://book-shop-backend-v1.vercel.app/
+### 🔗 [Live API Link](https://book-shop-backend-v1.vercel.app/)
 
+---
 
-## Features
+## 🚀 Features
 
-- **Create a Book**: Add new books to the inventory.
-- **Get All Books**: Fetch all books with search filters (by author, title, category).
-- **Get a Specific Book**: Fetch details of a specific book by ID.
-- **Update a Book**: Update the information of an existing book.
-- **Delete a Book**: Delete a book from the inventory.
-- **Order a Book**: Place an order for a book.
-- **Get Total Revenue**: Retrieve total revenue from orders.
+- 📖 **Books**
+  - Create a new book
+  - Get all books with advanced filtering (by title, author, category)
+  - Search books by keyword
+  - Update book details
+  - Delete a book
 
-## Technologies Used
+- 🛒 **Orders**
+  - Place an order for a book
+  - View total revenue
 
-- **Node.js** & **Express** (Backend Framework)
-- **TypeScript** (For type safety)
-- **MongoDB** & **Mongoose** (Database)
-- **ESLint** (For code linting)
-- **Prettier** (For code formatting)
-- **MongoDB Atlas** (Cloud Database)
+- 👤 **Authentication**
+  - User registration & login
+  - Secure JWT-based authentication
+  - Role base authentication
 
-## Prerequisites
+- 💳 **Payments**
+  - Stripe integration for payment processing
 
-Ensure the following tools are installed on your system:
+---
 
-- **Node.js**: [Download Node.js](https://nodejs.org/)
-- **npm** (Node Package Manager)
-- **MongoDB**: [Install MongoDB locally](https://www.mongodb.com/try/download/community) or use **MongoDB Atlas** (cloud database)
+## 🧰 Technologies Used
 
-## How to Run the Application Locally
+- **Node.js** & **Express** – Backend framework
+- **TypeScript** – Static typing
+- **MongoDB** & **Mongoose** – Database and ODM
+- **ESLint** & **Prettier** – Code linting & formatting
+- **Stripe API** – Secure payment handling
+- **MongoDB Atlas** – Cloud-hosted database
 
-Follow these steps to run the **BookShop API** locally:
+---
 
-### Step 1: Clone the Repository
+## 🛠️ Prerequisites
 
-### Step 2: Run "npm i"
+Ensure you have the following installed:
 
-### Step 3: Connect with mongodb
+- [Node.js](https://nodejs.org/)
+- npm (comes with Node.js)
+- [MongoDB](https://www.mongodb.com/try/download/community) or a **MongoDB Atlas** account
+- Stripe account and API keys
+
+---
+
+## 🧪 Getting Started (Local Development)
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/bookshop-api.git
+cd bookshop-api

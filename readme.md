@@ -17,7 +17,7 @@ Welcome to the **BookShop API**! This is a full-featured REST API built with **E
 
 - 🛒 **Orders**
   - Place an order for a book
-  - View total revenue
+
 
 - 👤 **Authentication**
   - User registration & login

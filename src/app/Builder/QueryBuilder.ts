@@ -1,4 +1,3 @@
-
 import { FilterQuery, Query } from 'mongoose';
 
 class QueryBuilder<T> {
@@ -6,9 +5,17 @@ class QueryBuilder<T> {
   public query: Record<string, unknown>;
 
   constructor(modelQuery: Query<T[], T>, query: Record<string, unknown>) {
+    const includeDeleted = query.includeDeleted === 'true';
+
+    // Apply isDeleted: false unless includeDeleted=true is explicitly passed
+    if (!includeDeleted) {
+      modelQuery.find({ isDeleted: false });
+    }
+
     this.modelQuery = modelQuery;
     this.query = query;
   }
+
   search(searchableFields: string[]) {
     const searchTerm = this?.query?.searchTerm;
     if (searchTerm) {
@@ -23,10 +30,13 @@ class QueryBuilder<T> {
     }
     return this;
   }
+
   filter() {
     const queryObject = { ...this.query };
-    const excludedFields = ['searchTerm', 'page', 'limit', 'sort'];
+    const excludedFields = ['searchTerm', 'page', 'limit', 'sort', 'includeDeleted'];
     excludedFields.forEach((field) => delete queryObject[field]);
+
+    // Handle price range filtering
     if (queryObject.minPrice && queryObject.maxPrice) {
       queryObject.price = {
         $gte: Number(queryObject.minPrice),
@@ -35,11 +45,16 @@ class QueryBuilder<T> {
       delete queryObject.minPrice;
       delete queryObject.maxPrice;
     }
+
     this.modelQuery = this.modelQuery.find(queryObject as FilterQuery<T>);
     return this;
   }
+
   limit() {
-    this.modelQuery = this.modelQuery.limit(Number(this?.query?.limit));
+    const limitValue = Number(this?.query?.limit);
+    if (!isNaN(limitValue) && limitValue > 0) {
+      this.modelQuery = this.modelQuery.limit(limitValue);
+    }
     return this;
   }
 
@@ -51,3 +66,9 @@ class QueryBuilder<T> {
 }
 
 export default QueryBuilder;
+
+
+
+
+
+

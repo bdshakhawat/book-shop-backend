@@ -1,8 +1,7 @@
 
 ## Backend Setup:
 
-# Clone the repository https://github.com/bdshakhawat/book-shop-backend
-cd book-shop-backend
+
 
 # Install dependencies
 npm install
@@ -21,77 +20,9 @@ JWT_ACCESS_EXPIRES_IN
 npm start:dev
 
 
-## Frontend Setup:
-
-# Install dependencies
-npm install
 
 
-# Start the frontend
-npm run dev
-
-
-## Usage Instructions: 
-
-- Sign up or log in to access the application.
-- Browse books, apply filters and search for specific Books.
-- View product details and proceed to checkout.
-- **Admins** can **add, update, delete products** and **manage users**.
-- **Users** can **place orders and manage their profiles**.
-
-## 👨‍💻 Contributors
-
-
-
-Backend:
-  <!-- You are encouraged to replace this logo with your own! Otherwise you can also remove it. -->
-
-  <h3><b>Shop-store Backend Project </b></h3>
-
-</div>
-
-<!-- TABLE OF CONTENTS -->
-
-# 📗 Table of Contents
-
-- [📗 Table of Contents](#-table-of-contents)
-- [📖 Shop-store Backend Project ](#-shop-store-backend-project-)
-  - [🛠 Built With ](#-built-with-)
-    - [Tech Stack ](#tech-stack-)
-    - [Key Features ](#key-features-)
-  - [🚀 Live Demo ](#-live-demo-)
-  - [💻 Getting Started ](#-getting-started-)
-    - [Prerequisites](#prerequisites)
-    - [Setup](#setup)
-    - [Install](#install)
-    - [Usage](#usage)
-    - [Run tests](#run-tests)
-    - [Deployment](#deployment)
-  - [👥 Authors ](#-authors-)
-  - [🔭 Future Features ](#-future-features-)
-  - [🤝 Contributing ](#-contributing-)
-  - [⭐️ Show your support ](#️-show-your-support-)
-  - [🙏 Acknowledgments ](#-acknowledgments-)
-  - [📝 License ](#-license-)
-
-<!-- PROJECT DESCRIPTION -->
-
-# 📖 Shop-store Backend Project <a name="about-project"></a>
-
-
-**Shop Store** is a powerful backend application tailored for managing products, orders, and revenues in a stationery shop. Built using **TypeScript**, **Express.js**, **MongoDB**, and **Mongoose**, it leverages clean architecture principles, robust validation, and advanced error handling to ensure reliability and maintainability.
-
-## 🛠 Built With <a name="built-with"></a>
-
-### Tech Stack <a name="tech-stack"></a>
-
-
-<details>
-  <summary>Back-end</summary>
-  <ul>
-    <li>Typescript Express.js MongoDB Mongoose </li>
-  </ul>
-</details>
+**book-shop-backend** is a powerful backend application tailored for managing products, orders, and revenues in a stationery shop. Built using **TypeScript**, **Express.js**, **MongoDB**, and **Mongoose**, it leverages clean architecture principles, robust validation, and advanced error handling to ensure reliability and maintainability.
 
 
 <!-- Features -->
@@ -113,35 +44,9 @@ Backend:
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-<!-- GETTING STARTED -->
-
-## 💻 Getting Started <a name="getting-started"></a>
-
-To get a local copy up and running, follow these steps.
-
-### Prerequisites
-
-In order to run this project you need:
-
-
- <ul>
-    <li>Installation of Git</li>
-    <li>Installation of NPM</li>
-    <li>A working browser</li>
-    <li>Install Typescript MongoDB Express js Moongoose</li>
-    <li>Install Zod cors</li>
-    <li>A code editor like Visual Studio Code</li>
-  </ul>
-
 ### Setup
 
 Clone this repository to your desired folder:
-
-
-```sh
-  cd my-folder
- (https://github.com/bdshakhawat/shop-store.git)
-```
 
 ### Install
 

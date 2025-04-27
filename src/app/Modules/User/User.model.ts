@@ -11,16 +11,22 @@ const UserSchema = new Schema<IUser>(
     },
     password: { type: String, required: true },
     role: { type: String, enum: ['user', 'admin'], default: 'user' },
+    passwordChangeAt: { type: Number, default: Date.now() },
+    activity: {
+      type: String,
+      enum: ['activated', 'deactivated'],
+      default: 'activated',
+    },
   },
   {
     timestamps: true,
   },
 );
 
-// UserSchema.methods.toJSON = function () {
-//   const user = this.toObject();
-//   delete user.password;
-//   return user;
-// };
+UserSchema.methods.toJSON = function () {
+  const user = this.toObject();
+  delete user.password;
+  return user;
+};
 
 export const User = model<IUser>('User', UserSchema);

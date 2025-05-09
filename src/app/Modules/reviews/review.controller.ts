@@ -25,6 +25,7 @@ const getAllReview = catchAsync(async (req, res) => {
 });
 const getReview = catchAsync(async (req, res) => {
   const { bookId } = req.params;
+  console.log('controller ',bookId)
   const result = await reviewServices.getReview(bookId);
   sendResponse(res, {
     statusCode: 200,

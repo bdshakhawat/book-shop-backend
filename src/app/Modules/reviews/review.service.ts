@@ -10,7 +10,7 @@ const getAllReview = async () => {
   return requests;
 };
 const getReview = async (bookId: string) => {
-  const requests = await Review.find({ bookId }).exec();
+  const requests = await Review.find( {bookId}).exec();
   return requests;
 };
 const increaseLike = async (reviewId: string): Promise<number> => {

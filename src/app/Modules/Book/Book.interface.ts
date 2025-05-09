@@ -1,7 +1,7 @@
 enum Category {
   Fiction,
   Science,
-  SelfDevelopment,
+  physics,
   Poetry,
   Religious,
 }

@@ -8,7 +8,7 @@ import Config from '../../Config';
 const LoginUser = catchAsync(async (req, res) => {
   const result = await AuthServices.Login(req.body);
   console.log('req', req.body);
-  const payload = { id: result?._id, role: result?.role, email: result?.email };
+  const payload = { id: result?._id, role: result?.role, email: result?.email,name:result.name };
   const accessToken = jwt.sign(payload, Config.jwt_secret as string, {
     expiresIn: '1h',
   });

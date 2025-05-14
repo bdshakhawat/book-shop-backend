@@ -2,7 +2,8 @@
 
 Welcome to the **BookShop API**! This is a full-featured REST API built with **Express**, **TypeScript**, **MongoDB**, and **Mongoose**, enhanced with modern development tools like **ESLint**, **Prettier**, and **Stripe**. It allows you to manage a book inventory, handle user authentication, place orders, and track revenue with secure payments.
 
-### 🔗 [Live API Link](https://book-shop-backend-v1.vercel.app/)
+### 🔗 [Live API Link](https://book-shop-backend-ten.vercel.app/)
+
 
 ---
 

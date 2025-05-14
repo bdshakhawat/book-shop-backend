@@ -3,7 +3,7 @@ import authGurd from '../../middlewares/authGurd';
 import { orderController } from './Order.controller';
 const route = Router();
 
- route.patch('/verify-order', authGurd('admin'), orderController.verifyPayment);
+//  route.patch('/verify-order', authGurd('admin'), orderController.verifyPayment);  //UNCOMMENT THIS LINE IF YOU WANT TO USE IT
 
 route.post(
   '/create-order',
